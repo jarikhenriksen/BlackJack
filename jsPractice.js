@@ -38,8 +38,8 @@ BlackJack.prototype = {
           document.getElementById('acesHighOrLow').innerHTML = 'Aces Low'
           return false
       }
-  }
-
+  },
+  //TO DO make dictionary with pics of cards assigned to card values
 }
 
 let game = new BlackJack
@@ -48,9 +48,10 @@ let highLow
 let yourHandValue = []
 let dealerHandValue = []
 
-let dealerCheck = function(yourArr, dealerArr) { //compares value of your hand to dealer
+let dealerCheck = function(yourArr, dealerArr) {//compares value of your hand to dealer
+  
     let yourSum = yourArr.reduce((a, b) => a + b, 0)  
-    let dealerSum = dealerArr.reduce((a, b) => a + b, 0 ) //adds value of both your hand and dealer hand on every new card 
+    let dealerSum = dealerArr.reduce((a, b) => a + b, 0) //adds value of both your hand and dealer hand on every new card 
     
     if((dealerSum > 21) && (yourSum > 21)) {
         alert('Tie')
@@ -66,12 +67,27 @@ let dealerCheck = function(yourArr, dealerArr) { //compares value of your hand t
     }
 }
 
+let stand = function(yourArr, dealerArr) {  //when you stand, this compares your hand to dealer hand, and determines winner.
+
+  let yourSum = yourArr.reduce((a, b) => a + b, 0)  
+  let dealerSum = dealerArr.reduce((a, b) => a + b, 0)
+
+  if(((dealerSum <= 21) && (yourSum <= 21)) && (yourSum > dealerSum)) {
+    alert('winner, your hand is higher than dealer hand')
+  }
+  
+  else if(((dealerSum <= 21) && (yourSum <= 21)) && (yourSum < dealerSum)) {
+    alert('loser, your hand is lower than dealer hand')
+  }
+
+}
+
 let getYourCard = function() { 
   highLow = game.acesHighorLow() 
   yourHandValue.pop() //removes first value in yourHandValue, if you press get your card multiple times, will become redundant in future. 
   let currentCards = game.getCard() 
   getDealerCard(highLow)
-  yourHand = document.getElementById('card').innerHTML = `your hand is ${currentCards.newCardValue} of ${currentCards.newCardSuit}`
+  yourHand = document.getElementById('card').innerHTML = `your hand is <br> ${currentCards.newCardValue} of ${currentCards.newCardSuit}`
 
   if ((currentCards.newCardValue === 'jack') || (currentCards.newCardValue === 'queen') || (currentCards.newCardValue === 'king')) { //converts royal values into numerical
         yourHandValue.push(10)
@@ -99,7 +115,7 @@ let getDealerCard = function(highLow) {
     let currentCards = game.getCard()
     
      
-    dealerHand = document.getElementById('dealerCard').innerHTML = `dealer hand is ${currentCards.newCardValue} of ${currentCards.newCardSuit}`
+    dealerHand = document.getElementById('dealerCard').innerHTML = `dealer hand is <br> ${currentCards.newCardValue} of ${currentCards.newCardSuit}`
 
     if ((currentCards.newCardValue === 'jack') || (currentCards.newCardValue === 'queen') || (currentCards.newCardValue === 'king')) { //converts royal values into numerical
           dealerHandValue.push(10)
@@ -177,8 +193,5 @@ let anotherDealerCard = function() {
 }
 
 let allDone = function() {
-    dealerCheck()
-
+    stand(yourHandValue, dealerHandValue)
 }
-
-//TO DO make all done WORK, supposed to check if pressing no more cards (standing) results in win or loss, possibly add more cards to dealers hand.

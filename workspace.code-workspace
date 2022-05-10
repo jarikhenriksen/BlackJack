@@ -8,5 +8,8 @@
             "name": "Practice",
             "path": "."
         }
-    ]
+    ],
+    "settings": {
+        "liveServer.settings.multiRootWorkspaceName": "Practice"
+    }
 }
